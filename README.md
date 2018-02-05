@@ -1,6 +1,8 @@
 ioping
 ======
 
+forked from [koct9i/ioping](https://github.com/koct9i/ioping)
+
 An tool to monitor I/O latency in real time.
 It shows disk latency in the same way as ping shows network latency.
 
@@ -33,6 +35,41 @@ Packages
 * Nix: https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/system/ioping/default.nix
 * FreeBSD: http://www.freshports.org/sysutils/ioping
 * OS X: https://github.com/Homebrew/homebrew/blob/master/Library/Formula/ioping.rb
+
+Extra Feature
+-------------
+
+The main aim is to  give the user opportunity to get statistics always in ms unit.
+It's useful for metrics and monitoring.
+
+`-Q` sets always ms
+```
+$ .\ioping.exe -Q -c 2 c:\ClusterStorage\Volume1\temp
+ioping: non-cached I/O not supported by this platform
+ioping: you can use write I/O to get reliable results
+4 KiB <<< c:\ClusterStorage\Volume1\temp ( ): request=1 time=473 us time=0.5 ms (warmup)
+4 KiB <<< c:\ClusterStorage\Volume1\temp ( ): request=2 time=662 us time=0.7 ms
+
+--- c:\ClusterStorage\Volume1\temp ( ) ioping statistics ---
+662 us time=0.7 ms time=0.7 ms requests completed in 662 us, 4 KiB read, 1.51 k iops, 5.90 MiB/s
+generated 1.00 s time=1001.5 ms requests in 1.00 s, 8 KiB, 1 iops, 7.99 KiB/s
+min/avg/max/mdev = 662 us time=0.7 ms / 662 us time=0.7 ms / 662 us time=0.7 ms / 0 ns time=0.0 ms
+``` 
+
+`-O` sets old style of output
+
+```
+$ .\ioping.exe -O -c 2 c:\ClusterStorage\Volume1\temp
+ioping: non-cached I/O not supported by this platform
+ioping: you can use write I/O to get reliable results
+4 KiB <<< c:\ClusterStorage\Volume1\temp ( ): request=1 time=451 us (warmup)
+4 KiB <<< c:\ClusterStorage\Volume1\temp ( ): request=2 time=755 us
+
+--- c:\ClusterStorage\Volume1\temp ( ) ioping statistics ---
+755 us0.8 ms requests completed in 755 us, 4 KiB read, 1.32 k iops, 5.17 MiB/s
+generated 1.00 s requests in 1.00 s, 8 KiB, 1 iops, 7.98 KiB/s
+min/avg/max/mdev = 755 us / 755 us / 755 us / 0 ns
+```
 
 Examples
 --------
@@ -76,6 +113,11 @@ Authors
 -------
 
 * Konstantin Khlebnikov <koct9i@gmail.com>
+* Kir Kolyshkin <kir@openvz.org>
+* Extra Feature - Przemyslaw Mika <przemyslaw@mika.pro>
+
+Licensed under GPLv3 (or later) <http://www.gnu.org/licenses/gpl-3.0.txt>
+
 * Kir Kolyshkin <kir@openvz.org>
 
 Licensed under GPLv3 (or later) <http://www.gnu.org/licenses/gpl-3.0.txt>
