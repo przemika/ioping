@@ -1,7 +1,8 @@
 ioping
 ======
 
-forked from [koct9i/ioping](https://github.com/koct9i/ioping)
+forked from [koct9i/ioping](https://github.com/koct9i/ioping).
+Added Extra Feature `-O` and `-Q` for output .
 
 An tool to monitor I/O latency in real time.
 It shows disk latency in the same way as ping shows network latency.
