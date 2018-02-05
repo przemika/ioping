@@ -478,6 +478,13 @@ void print_time(long long val)
 	print_suffix(val, time_suffix);
 }
 
+int old_style = 0;
+int new_style = 1;
+void print_time_in_miliseconds(long long val) {
+	if (old_style && new_style) printf(" time=");
+	printf("%.1f ms", ((float)val)/1000000);
+}
+
 char *path = NULL;
 char *fstype = "";
 char *device = "";
@@ -531,7 +538,7 @@ void parse_options(int argc, char **argv)
 		exit(1);
 	}
 
-	while ((opt = getopt(argc, argv, "hvkALRDCWGYBqyi:t:T:w:s:S:c:o:p:P:l:")) != -1) {
+	while ((opt = getopt(argc, argv, "OQhvkALRDCWGYBqyi:t:T:w:s:S:c:o:p:P:l:")) != -1) {
 		switch (opt) {
 			case 'h':
 				usage();
@@ -617,6 +624,14 @@ void parse_options(int argc, char **argv)
 				break;
 			case 'k':
 				keep_file = 1;
+				break;
+			case 'O':
+				old_style = 1;
+				new_style = 0;
+				break;
+			case 'Q':
+				old_style = 1;
+				new_style = 1;		
 				break;
 			case '?':
 				usage();
@@ -1398,7 +1413,9 @@ skip_preparation:
 			if (device_size)
 				print_size(device_size);
 			printf("): request=%lu time=", (long unsigned)request);
-			print_time(this_time);
+			if (old_style) print_time(this_time);
+                        if (new_style) print_time_in_miliseconds(this_time);	
+			/* print_time(this_time); */
 			if (request == 1) {
 				printf(" (warmup)");
 			} else if (this_time < min_valid_time) {
@@ -1466,7 +1483,9 @@ skip_preparation:
 	if (device_size)
 		print_size(device_size);
 	printf(") ioping statistics ---\n");
-	print_int(total.valid);
+	if (old_style) print_time(total.sum);
+        if (new_style) print_time_in_miliseconds(total.sum);
+	print_time_in_miliseconds(total.sum);
 	printf(" requests completed in ");
 	print_time(total.sum);
 	printf(", ");
@@ -1487,7 +1506,8 @@ skip_preparation:
 		printf(" too slow, ");
 	}
 	printf("generated ");
-	print_int(total.count);
+        if (old_style) print_time(total.load_time);
+        if (new_style) print_time_in_miliseconds(total.load_time);	
 	printf(" requests in ");
 	print_time(total.load_time);
 	printf(", ");
@@ -1496,17 +1516,21 @@ skip_preparation:
 	print_int(total.load_iops);
 	printf(" iops, ");
 	print_size(total.load_speed);
-	printf("/s\n");
-
-	printf("min/avg/max/mdev = ");
-	print_time(total.min);
-	printf(" / ");
-	print_time(total.avg);
-	printf(" / ");
-	print_time(total.max);
-	printf(" / ");
-	print_time(total.mdev);
-	printf("\n");
-
-	return 0;
+ 	printf("/s\n");
+ 
+ 	printf("min/avg/max/mdev = ");
+	if (old_style) print_time(total.min);
+        if (new_style) print_time_in_miliseconds(total.min);
+ 	printf(" / ");
+        if (old_style) print_time(total.avg);
+        if (new_style) print_time_in_miliseconds(total.avg);
+ 	printf(" / ");
+        if (old_style) print_time(total.max);
+        if (new_style) print_time_in_miliseconds(total.max);
+ 	printf(" / ");
+        if (old_style) print_time(total.mdev);
+        if (new_style) print_time_in_miliseconds(total.mdev);
+ 	printf("\n");
+ 
+ 	return 0;
 }
