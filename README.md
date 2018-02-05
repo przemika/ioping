@@ -118,7 +118,3 @@ Authors
 * Extra Feature - Przemyslaw Mika <przemyslaw@mika.pro>
 
 Licensed under GPLv3 (or later) <http://www.gnu.org/licenses/gpl-3.0.txt>
-
-* Kir Kolyshkin <kir@openvz.org>
-
-Licensed under GPLv3 (or later) <http://www.gnu.org/licenses/gpl-3.0.txt>
